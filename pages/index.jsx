@@ -7,13 +7,29 @@ import {
   servicesSliderProps,
   testimonialsSliderProps,
 } from "../src/sliderProps";
+import { useUser } from "../src/utils/useUser";
 const PortfolioIsotope = dynamic(
   () => import("../src/components/PortfolioIsotope"),
   {
     ssr: false,
   }
 );
+
 const Index = () => {
+  const { user } = useUser();
+  console.log("user", user);
+
+  // Seperate out user data
+  const userAbout = user?.about;
+  const userServices = user?.services ? user.services : [];
+  const userSkills = user?.skills ? user.skills.sort((a, b) => a.sequence-b.sequence) : [];
+  const userProjects = user?.projects ? user.projects.sort((a, b) => a.sequence-b.sequence) : [];
+
+  // Filter the user name
+  const words = userAbout?.name ? userAbout?.name.split(" ") : [];
+  const firstName = words.shift();
+  const lastName = words.join(" ");
+
   return (
     <Layout pageClassName={"home"}>
       {/* Section - Hero Started */}
@@ -32,7 +48,6 @@ const Index = () => {
                 <div className="titles">
                   <div className="lui-subtitle">
                     <span>
-                      {" "}
                       Hello, <b>my name is</b>
                     </span>
                   </div>
@@ -42,25 +57,22 @@ const Index = () => {
                     data-animate="active"
                   >
                     <span>
-                      <b>Zoé</b> Miller{" "}
+                      <b>{firstName}</b> {" " + lastName}
                     </span>
                   </h1>
                   <div className="label lui-subtitle">
-                    {" "}
-                    I am <strong>Web Developer</strong>
+                    I am <strong>{userAbout?.title}</strong>
                   </div>
                 </div>
                 <div className="description">
                   <div>
                     <p>
-                      From France, Paris. I have rich experience in web design,
-                      also I am good at wordpress. I love to talk with you about
-                      our unique.
+                      {userAbout?.description}
                     </p>
                   </div>
                   <div className="social-links">
                     <a target="_blank" rel="nofollow" href="#">
-                      <i aria-hidden="true" className="fab fa-twitter" />
+                      <i className="fab fa-twitter" />
                     </a>
                     <a target="_blank" rel="nofollow" href="#">
                       <i aria-hidden="true" className="fab fa-dribbble" />
@@ -90,8 +102,8 @@ const Index = () => {
               >
                 <img
                   decoding="async"
-                  src="assets/images/profile2.png"
-                  alt="<b>Zoé</b> Miller"
+                  src={userAbout?.avatar?.url}
+                  alt={userAbout?.name}
                 />
                 <span className="circle circle-1" />
                 <span
@@ -116,14 +128,14 @@ const Index = () => {
                   <ul>
                     <li>
                       <span className="num">
-                        12 <strong>+</strong>
+                        {userAbout?.exp_year} <strong>+</strong>
                       </span>
                       <span className="value">
                         Years of <strong>Experience</strong>
                       </span>
                     </li>
                     <li>
-                      <span className="num">330</span>
+                      <span className="num">{userAbout?.some_total}</span>
                       <span className="value">
                         Completed <strong>Projects</strong>
                       </span>
@@ -133,7 +145,7 @@ const Index = () => {
               </div>
             </div>
             <div className="lui-bgtitle">
-              <span> Web Developer </span>
+              <span>{userAbout?.title}</span>
             </div>
           </div>
         </div>
@@ -175,152 +187,34 @@ const Index = () => {
               className="swiper-container js-services scrolla-element-anim-1 scroll-animate"
               data-animate="active"
             >
-              <SwiperSlide className="swiper-slide">
-                <div className="services-item">
-                  <div className="lui-subtitle">
-                    <span> Web Development </span>
-                  </div>
-                  <div className="icon" />
-                  <h5 className="lui-title">
-                    <span> Web Design &amp; Logo </span>
-                  </h5>
-                  <div className="lui-text">
-                    <div>
+              {userServices.map((service, index) => (
+                <SwiperSlide className="swiper-slide" key={`user-services-${index}`}>
+                  <div className="services-item">
+                    <div className="lui-subtitle">
+                      <span> {service.name} </span>
+                    </div>
+                    <div className="icon" />
+                    <h5 className="lui-title">
+                      <span> {service.name} </span>
+                    </h5>
+                    <div className="lui-text">
+                      <div>
+                        {service.desc}
+                      </div>
+                    </div>
+                    <a href="#pricing-section" className="lnk">
                       {" "}
-                      Web designers craft the overall vision &amp; plan for a
-                      website layout. Professional logo development: Business,
-                      Company, or Personal.{" "}
-                    </div>
+                      See Pricing{" "}
+                    </a>
+                    <div
+                      className="image"
+                      style={{
+                        backgroundImage: "url(assets/images/pat-2.png)",
+                      }}
+                    />
                   </div>
-                  <a href="#pricing-section" className="lnk">
-                    {" "}
-                    See Pricing{" "}
-                  </a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage: "url(assets/images/pat-2.png)",
-                    }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className="swiper-slide">
-                <div className="services-item">
-                  <div className="lui-subtitle">
-                    <span> Apps Development </span>
-                  </div>
-                  <div className="icon" />
-                  <h5 className="lui-title">
-                    <span> iOS &amp; Android </span>
-                  </h5>
-                  <div className="lui-text">
-                    <div>
-                      <p>
-                        Design Software applications to run on mobile devices.
-                        Modern and mobile-ready application that will help you
-                        reach all of your marketing.
-                      </p>
-                    </div>
-                  </div>
-                  <a href="#pricing-section" className="lnk">
-                    {" "}
-                    See Pricing{" "}
-                  </a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage: "url(assets/images/pat-2.png)",
-                    }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className="swiper-slide">
-                <div className="services-item">
-                  <div className="lui-subtitle">
-                    <span> Game Development </span>
-                  </div>
-                  <div className="icon" />
-                  <h5 className="lui-title">
-                    <span> Unity &amp; Unreal Engine </span>
-                  </h5>
-                  <div className="lui-text">
-                    <div>
-                      {" "}
-                      Creating games &amp; describes the design, development and
-                      release of a game. Developing unique mobile android and
-                      ios games.{" "}
-                    </div>
-                  </div>
-                  <a href="#pricing-section" className="lnk">
-                    {" "}
-                    See Pricing{" "}
-                  </a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage: "url(assets/images/pat-2.png)",
-                    }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className="swiper-slide">
-                <div className="services-item">
-                  <div className="lui-subtitle">
-                    <span> Advertising </span>
-                  </div>
-                  <div className="icon" />
-                  <h5 className="lui-title">
-                    <span> Google Ads </span>
-                  </h5>
-                  <div className="lui-text">
-                    <div>
-                      {" "}
-                      Advertising services include: Google search result pages,
-                      gmails, YouTube and other websites participated in Google
-                      Ads program.{" "}
-                    </div>
-                  </div>
-                  <a href="#pricing-section" className="lnk">
-                    {" "}
-                    See Pricing{" "}
-                  </a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage: "url(assets/images/pat-2.png)",
-                    }}
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className="swiper-slide">
-                <div className="services-item">
-                  <div className="lui-subtitle">
-                    <span> Music Writing </span>
-                  </div>
-                  <div className="icon" />
-                  <h5 className="lui-title">
-                    <span> Sound Track </span>
-                  </h5>
-                  <div className="lui-text">
-                    <div>
-                      <p>
-                        Music copying, writing, creating, transcription and
-                        composition services.
-                      </p>
-                    </div>
-                  </div>
-                  <a href="#pricing-section" className="lnk">
-                    {" "}
-                    See Pricing{" "}
-                  </a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage: "url(assets/images/pat-2.png)",
-                    }}
-                  />
-                </div>
-              </SwiperSlide>
+                </SwiperSlide>
+              ))}
               <div className="swiper-pagination" />
             </Swiper>
             <div className="lui-bgtitle">
@@ -359,180 +253,42 @@ const Index = () => {
         <div className="v-line v-line-left">
           <div className="container">
             <div className="row">
-              <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <div className="skills-items">
-                  <div
-                    className="skills-item scrolla-element-anim-1 scroll-animate"
-                    data-animate="active"
-                  >
-                    <h6 className="name">
-                      <span> PHP </span>
-                    </h6>
-                    <div className="text">
-                      <div>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
-                        </p>
+              {userSkills.map((skill, index) => (
+                <div key={`user-skill-${index}`} className="col-xs-12 col-sm-6 col-md-4 col-lg-4 mb-5">
+                  <div className="skills-items">
+
+                    <div
+                      className="skills-item scrolla-element-anim-1 scroll-animate"
+                      data-animate="active"
+                    >
+                      <h6 className="name">
+                        <span> {skill.name} </span>
+                      </h6>
+                      <div className="text">
+                        <img className="ratio ratio-1x1 w-50 img-fluid mx-auto d-block" src={skill.image.url} alt={skill.name} />
+                        {/* <div>
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit, sed do eiusmod tempor incididunt ut labore et
+                            dolore magna aliqua.
+                          </p>
+                        </div> */}
                       </div>
-                    </div>
-                    <div className="dots">
-                      <div className="dot" style={{ width: "85%" }}>
-                        <span />
+                      <div className="dots">
+                        <div className="dot" style={{ width: "85%" }}>
+                          <span />
+                        </div>
                       </div>
-                    </div>
-                    <div className="value">
-                      <span className="num">
-                        85 <span>%</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    className="skills-item scrolla-element-anim-1 scroll-animate"
-                    data-animate="active"
-                  >
-                    <h6 className="name">
-                      <span> Python </span>
-                    </h6>
-                    <div className="text">
-                      <div>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
-                        </p>
+                      <div className="value">
+                        <span className="num">
+                          {skill.percentage} <span>%</span>
+                        </span>
                       </div>
-                    </div>
-                    <div className="dots">
-                      <div className="dot" style={{ width: "75%" }}>
-                        <span />
-                      </div>
-                    </div>
-                    <div className="value">
-                      <span className="num">
-                        75 <span>%</span>
-                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <div className="skills-items">
-                  <div
-                    className="skills-item scrolla-element-anim-1 scroll-animate"
-                    data-animate="active"
-                  >
-                    <h6 className="name">
-                      <span> JavaScript </span>
-                    </h6>
-                    <div className="text">
-                      <div>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="dots">
-                      <div className="dot" style={{ width: "75%" }}>
-                        <span />
-                      </div>
-                    </div>
-                    <div className="value">
-                      <span className="num">
-                        75 <span>%</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    className="skills-item scrolla-element-anim-1 scroll-animate"
-                    data-animate="active"
-                  >
-                    <h6 className="name">
-                      <span> React </span>
-                    </h6>
-                    <div className="text">
-                      <div>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="dots">
-                      <div className="dot" style={{ width: "70%" }}>
-                        <span />
-                      </div>
-                    </div>
-                    <div className="value">
-                      <span className="num">
-                        70 <span>%</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <div className="skills-items">
-                  <div
-                    className="skills-item scrolla-element-anim-1 scroll-animate"
-                    data-animate="active"
-                  >
-                    <h6 className="name">
-                      <span> WordPress </span>
-                    </h6>
-                    <div className="text">
-                      <div>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="dots">
-                      <div className="dot" style={{ width: "90%" }}>
-                        <span />
-                      </div>
-                    </div>
-                    <div className="value">
-                      <span className="num">
-                        90 <span>%</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    className="skills-item scrolla-element-anim-1 scroll-animate"
-                    data-animate="active"
-                  >
-                    <h6 className="name">
-                      <span> Adobe XD </span>
-                    </h6>
-                    <div className="text">
-                      <div>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="dots">
-                      <div className="dot" style={{ width: "80%" }}>
-                        <span />
-                      </div>
-                    </div>
-                    <div className="value">
-                      <span className="num">
-                        80 <span>%</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
+
             </div>
             <div className="lui-bgtitle">
               <span> Skills </span>

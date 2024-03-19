@@ -2,16 +2,32 @@ import Head from "next/head";
 import { Fragment, useEffect, useState } from "react";
 import PreLoader from "../src/layouts/PreLoader";
 import "../styles/globals.css";
+import axios from "axios";
+import { UserContext } from "../src/utils/useUser";
+// import { UserProvider, useUser, useUserContext } from "../src/utils/useUser";
+
+
+
 const App = ({ Component, pageProps }) => {
+  const [user, setUser] = useState([]);
   const [loader, setLoader] = useState(true);
+
   useEffect(() => {
-    setTimeout(() => {
-      setLoader(false);
-    }, 500);
+    async function fetchData() {
+      try {
+        const resp = await axios.get(process.env.NEXT_PUBLIC_API_URL);
+        setUser(resp?.data?.user);
+        setLoader(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }, []);
 
   return (
-    <Fragment>
+    <UserContext.Provider value={{ user, loader }}>
+      {/* <Fragment> */}
       <Head>
         <title>Luique - Personal Portfolio React NextJS Template</title>
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
@@ -87,7 +103,8 @@ const App = ({ Component, pageProps }) => {
       </Head>
       {loader && <PreLoader />}
       <Component {...pageProps} />
-    </Fragment>
+      {/* </Fragment> */}
+    </UserContext.Provider>
   );
 };
 export default App;

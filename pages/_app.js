@@ -4,7 +4,6 @@ import PreLoader from "../src/layouts/PreLoader";
 import "../styles/globals.css";
 import axios from "axios";
 import { UserContext } from "../src/utils/useUser";
-// import { UserProvider, useUser, useUserContext } from "../src/utils/useUser";
 
 
 
@@ -27,7 +26,6 @@ const App = ({ Component, pageProps }) => {
 
   return (
     <UserContext.Provider value={{ user, loader }}>
-      {/* <Fragment> */}
       <Head>
         <title>Luique - Personal Portfolio React NextJS Template</title>
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
@@ -103,7 +101,6 @@ const App = ({ Component, pageProps }) => {
       </Head>
       {loader && <PreLoader />}
       <Component {...pageProps} />
-      {/* </Fragment> */}
     </UserContext.Provider>
   );
 };

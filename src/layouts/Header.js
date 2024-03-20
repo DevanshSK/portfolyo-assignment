@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 import { linkClick, toggleMenu } from "../utils";
+import { useUser } from "../utils/useUser";
 
 const Header = () => {
   const [day, setDay] = useState(true);
+  const { user } = useUser();
   useEffect(() => {
     if (day) {
       document.querySelector("body").classList.add("light-skin");
@@ -93,6 +95,7 @@ const Header = () => {
                         {/* menu full */}
                         <div className="menu-full">
                           <ul className="menu-full">
+
                             <li className="menu-item">
                               <Link legacyBehavior href="/">
                                 <a
@@ -103,76 +106,98 @@ const Header = () => {
                                 </a>
                               </Link>
                             </li>
-                            <li className="menu-item">
-                              <a
-                                className="splitting-text-anim-2"
-                                data-splitting="chars"
-                                href="/#services-section"
-                                onClick={() => linkClick()}
-                              >
-                                Services
-                              </a>
-                            </li>
-                            <li className="menu-item">
-                              <a
-                                className="splitting-text-anim-2"
-                                data-splitting="chars"
-                                href="/#skills-section"
-                                onClick={() => linkClick()}
-                              >
-                                Skills
-                              </a>
-                            </li>
-                            <li className="menu-item">
-                              <a
-                                className="splitting-text-anim-2"
-                                data-splitting="chars"
-                                href="/#works-section"
-                                onClick={() => linkClick()}
-                              >
-                                Works
-                              </a>
-                            </li>
-                            <li className="menu-item">
-                              <a
-                                className="splitting-text-anim-2"
-                                data-splitting="chars"
-                                href="/#resume-section"
-                                onClick={() => linkClick()}
-                              >
-                                Resume
-                              </a>
-                            </li>
-                            <li className="menu-item">
-                              <a
-                                className="splitting-text-anim-2"
-                                data-splitting="chars"
-                                href="/#testimonials-sec
+
+                            {user.services && (
+                              <li className="menu-item">
+                                <a
+                                  className="splitting-text-anim-2"
+                                  data-splitting="chars"
+                                  href="/#services-section"
+                                  onClick={() => linkClick()}
+                                >
+                                  Services
+                                </a>
+                              </li>
+                            )}
+
+                            {user.skills && (
+                              <li className="menu-item">
+                                <a
+                                  className="splitting-text-anim-2"
+                                  data-splitting="chars"
+                                  href="/#skills-section"
+                                  onClick={() => linkClick()}
+                                >
+                                  Skills
+                                </a>
+                              </li>
+                            )}
+
+                            {user.projects && (
+                              <li className="menu-item">
+                                <a
+                                  className="splitting-text-anim-2"
+                                  data-splitting="chars"
+                                  href="/#works-section"
+                                  onClick={() => linkClick()}
+                                >
+                                  Works
+                                </a>
+                              </li>
+                            )}
+
+                            {user.timeline && (
+                              <li className="menu-item">
+                                <a
+                                  className="splitting-text-anim-2"
+                                  data-splitting="chars"
+                                  href="/#resume-section"
+                                  onClick={() => linkClick()}
+                                >
+                                  Resume
+                                </a>
+                              </li>
+                            )}
+
+                            {user.testimonials && (
+                              <li className="menu-item">
+                                <a
+                                  className="splitting-text-anim-2"
+                                  data-splitting="chars"
+                                  href="/#testimonials-sec
                                 onClick={() => linkClick()}tion"
-                              >
-                                Testimonials
-                              </a>
-                            </li>
-                            <li className="menu-item">
-                              <a
-                                className="splitting-text-anim-2"
-                                data-splitting="chars"
-                                href="/#pricing-section"
-                                onClick={() => linkClick()}
-                              >
-                                Pricing
-                              </a>
-                            </li>
-                            <li className="menu-item">
-                              <a
-                                className="splitting-text-anim-2"
-                                data-splitting="chars"
-                                href="/#blog-section"
-                                onClick={() => linkClick()}
-                              >
-                                Blog
-                              </a>
-                            </li>
+                                >
+                                  Testimonials
+                                </a>
+                              </li>
+                            )}
+
+                            {user.pricing && (
+                              <li className="menu-item">
+                                <a
+                                  className="splitting-text-anim-2"
+                                  data-splitting="chars"
+                                  href="/#pricing-section"
+                                  onClick={() => linkClick()}
+                                >
+                                  Pricing
+                                </a>
+                              </li>
+                            )}
+
+                            {user.blogs && (
+                              <li className="menu-item">
+                                <a
+                                  className="splitting-text-anim-2"
+                                  data-splitting="chars"
+                                  href="/#blog-section"
+                                  onClick={() => linkClick()}
+                                >
+                                  Blog
+                                </a>
+                              </li>
+                            )}
+
                             <li className="menu-item">
                               <a
                                 className="splitting-text-anim-2"
@@ -184,9 +209,8 @@ const Header = () => {
                               </a>
                             </li>
                             <li
-                              className={`menu-item menu-item-has-children has-children ${
-                                pageToggle ? "opened" : "closed"
-                              }`}
+                              className={`menu-item menu-item-has-children has-children ${pageToggle ? "opened" : "closed"
+                                }`}
                             >
                               <a
                                 className="splitting-text-anim-2"

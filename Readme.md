@@ -5,7 +5,7 @@ In this assignment, I have to convert the static portfolio website into a dynami
 
 The live deployment can be found at this url:
 
-[Live deployment here](https://github.com/abhayg951/ADDLearn)
+[Live deployment here](https://portfolyo-assignment-devansh-singh-kushwah.vercel.app/)
 
 ## Steps to Run locally
 

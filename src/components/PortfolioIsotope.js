@@ -107,7 +107,6 @@ const PortfolioIsotope = ({ noViewMore }) => {
           {userProjects.map((project, index) => {
             const techStack = project.techStack.map(tech => `sorting-${tech.trim()}`).join(" ");
             const displayTechStack = project.techStack.map(tech => tech.trim()).join(", ");
-            console.log(techStack);
 
             if (index < 6 || noViewMore) {
               return (

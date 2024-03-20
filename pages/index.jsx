@@ -1160,7 +1160,7 @@ const Index = () => {
                       <span> Address </span>
                     </div>
                     <div className="lui-text">
-                      <span> {userAbout.address} </span>
+                      <span> {userAbout?.address} </span>
                     </div>
                   </div>
                   <div
@@ -1202,7 +1202,7 @@ const Index = () => {
                       <span> Phone </span>
                     </div>
                     <div className="lui-text">
-                      <span> {userAbout.phoneNumber} </span>
+                      <span> {userAbout?.phoneNumber} </span>
                     </div>
                   </div>
                 </div>

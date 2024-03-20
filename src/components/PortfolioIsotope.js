@@ -5,7 +5,7 @@ import { useUser } from "../utils/useUser";
 const PortfolioIsotope = ({ noViewMore }) => {
   const { user } = useUser();
   // Extract projects and skills for filtering
-  const userProjects = user?.projects ? user.projects.sort((a, b) => a.sequence - b.sequence) : [];
+  const userProjects = user?.projects ? user.projects.sort((a, b) => a.sequence - b.sequence).filter(a => a.enabled) : [];
   const filterItems = [];
   userProjects.forEach(project => project?.techStack.forEach(techStack => {
     if (!filterItems.includes(techStack.trim())) {
@@ -68,40 +68,6 @@ const PortfolioIsotope = ({ noViewMore }) => {
               {item}
             </a>
           ))}
-          {/* <a
-            className={`c-pointer lui-subtitle ${activeBtn(
-              "sorting-ui-ux-design"
-            )}`}
-            onClick={handleFilterKeyChange("sorting-ui-ux-design")}
-            data-href=".sorting-ui-ux-design"
-          >
-            UI UX Design
-          </a> */}
-          {/* <a
-            className={`c-pointer lui-subtitle ${activeBtn("sorting-photo")}`}
-            onClick={handleFilterKeyChange("sorting-photo")}
-            data-href=".sorting-photo"
-          >
-            Photography
-          </a>
-          <a
-            className={`c-pointer lui-subtitle ${activeBtn(
-              "sorting-development"
-            )}`}
-            onClick={handleFilterKeyChange("sorting-development")}
-            data-href=".sorting-development"
-          >
-            Development
-          </a>
-          <a
-            className={`c-pointer lui-subtitle ${activeBtn(
-              "sorting-branding"
-            )}`}
-            onClick={handleFilterKeyChange("sorting-branding")}
-            data-href=".sorting-branding"
-          >
-            Branding
-          </a> */}
         </div>
         <div className="works-items works-masonry-items row">
           {userProjects.map((project, index) => {
@@ -110,7 +76,7 @@ const PortfolioIsotope = ({ noViewMore }) => {
 
             if (index < 6 || noViewMore) {
               return (
-                <div key={`project-item-${index}`} className={`works-col col-xs-12 col-sm-12 col-md-12 col-lg-12 ${techStack}`}>
+                <div key={`project-item-${project._id}`} className={`works-col col-xs-12 col-sm-12 col-md-12 col-lg-12 ${techStack}`}>
                   <div
                     className="works-item scrolla-element-anim-1 scroll-animate"
                     data-animate="active"
@@ -121,8 +87,10 @@ const PortfolioIsotope = ({ noViewMore }) => {
                           <a>
                             <img
                               decoding="async"
-                              src="assets/images/work4.jpeg"
-                              alt="Zorro"
+                              src={project?.image?.url}
+                              alt={project?.title}
+                            // src="assets/images/work4.jpeg"
+                            // alt="Zorro"
                             />
                             <span className="overlay" />
                           </a>
@@ -141,9 +109,11 @@ const PortfolioIsotope = ({ noViewMore }) => {
                           {project?.description ? project.description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore."}
                         </p>
                       </div>
-                      <Link legacyBehavior href="/work-single">
-                        <a className="lnk">See project</a>
+
+                      <Link legacyBehavior href={project.githubUrl ? PortfolioIsotope.githubUrl : "/work-single"}>
+                        <a className="lnk">{project.githubUrl ? "View Live Project" : "See Project"}</a>
                       </Link>
+
                     </div>
                     <div
                       className="bg-img"
